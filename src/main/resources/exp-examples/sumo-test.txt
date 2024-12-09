@@ -1,0 +1,51 @@
+ea.experiment(
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) * [
+    ea.run(
+      solver = ea.s.ga(
+        representation = ea.r.doubleString();
+        mapper = er.m.ndsToFixedBodyCentralizedVSR(
+          body = s.a.vsr.gridBody(
+            sensorizingFunction = s.a.vsr.sf.directional(
+              headSensors = [s.s.sin(f = 0); s.s.d(a = -15; r = 5)];
+              nSensors = [s.s.ar(); s.s.rv(a = 0); s.s.rv(a = 90)];
+              sSensors = [s.s.d(a = -90)]
+            );
+            shape = s.a.vsr.s.biped(w = 4; h = 3)
+          );
+          of = ea.m.dsToNpnds(npnds = ds.num.mlp())
+        );
+        nEval = 5;
+        nPop = 5
+      );
+      problem = ea.p.simTo(
+        simulation = s.task.sumo(duration = 3; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
+        f = s.f.outcome.faXVelocity();
+        type = maximize
+      )
+    )
+  ];
+  listeners = [
+    ea.l.console(
+      functions = [
+        ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
+        s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality(of = ea.f.best())); format = "%6.4f");
+        ea.f.hist(of = f.each(of = ea.f.all(); mapF = s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality()))));
+        f.percentile(of = f.each(of = ea.f.all(); mapF = s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality()))); p = 75; format = "%6.4f")
+      ]
+    );
+    ea.l.onRunDone(
+        of = ea.a.lastBest();
+        preprocessor = ea.f.toVideo(
+            of = ea.f.solution();
+            video = sim.taskVideoBuilder(
+                task = s.task.sumo(duration = 3; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
+                drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
+            );
+            w = 300;
+            h = 200;
+            encoder = jcodec
+        );
+        consumers = [ea.c.saver(path = "video-{run.index}")]
+    )
+  ]
+)

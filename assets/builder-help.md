@@ -4166,17 +4166,6 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 
 Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.aaAvgW()` by robotevo2d-main:1.5.1-SNAPSHOT
 
-### Builder `sim.function.outcome.aaFinalAvgH()`
-
-`s.f.o.aaFinalAvgH(of; format)`
-
-| Param | Type | Default | Java type |
-| --- | --- | --- | --- |
-| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.AgentsOutcome">AgentsOutcome</abbr>&lt;?&gt;&gt;</code> |
-| `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
-
-Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.aaFinalAvgH()` by robotevo2d-main:1.5.1-SNAPSHOT
-
 ### Builder `sim.function.outcome.aaFinalAvgW()`
 
 `s.f.o.aaFinalAvgW(of; format)`
@@ -4242,6 +4231,28 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 | `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
 
 Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.aaFinalMinW()` by robotevo2d-main:1.5.1-SNAPSHOT
+
+### Builder `sim.function.outcome.aaFinalMrH()`
+
+`s.f.o.aaFinalMrH(of; format)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.AgentsOutcome">AgentsOutcome</abbr>&lt;?&gt;&gt;</code> |
+| `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
+
+Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.aaFinalMrH()` by robotevo2d-main:1.5.1-SNAPSHOT
+
+### Builder `sim.function.outcome.aaFinalMrW()`
+
+`s.f.o.aaFinalMrW(of; format)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.AgentsOutcome">AgentsOutcome</abbr>&lt;?&gt;&gt;</code> |
+| `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
+
+Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.aaFinalMrW()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ### Builder `sim.function.outcome.aaFinalW()`
 
@@ -4580,6 +4591,17 @@ Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.locomotion.P
 
 Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.piling.StandPiling">StandPiling</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.standPiling()` by robotevo2d-main:1.5.1-SNAPSHOT
 
+### Builder `sim.task.sumo()`
+
+`s.task.sumo(duration; terrain)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `duration` | d | `60.0` | <code>double</code> |
+| `terrain` | npm | `sim.terrain.sumoArena()` | <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo">Sumo</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.sumo()` by robotevo2d-main:1.5.1-SNAPSHOT
+
 ## Package `sim.terrain`
 
 Aliases: `s.t`, `s.terrain`, `sim.t`, `sim.terrain`
@@ -4658,6 +4680,20 @@ Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">
 | `seed` | i | `1` | <code><abbr title="java.lang.Integer">Integer</abbr></code> |
 
 Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Terrains.steppy()` by robotevo2d-main:1.5.1-SNAPSHOT
+
+### Builder `sim.terrain.sumoArena()`
+
+`s.t.sumoArena(h; borderW; borderH; flatW; flatH)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `h` | d | `25.0` | <code><abbr title="java.lang.Double">Double</abbr></code> |
+| `borderW` | d | `10.0` | <code><abbr title="java.lang.Double">Double</abbr></code> |
+| `borderH` | d | `100.0` | <code><abbr title="java.lang.Double">Double</abbr></code> |
+| `flatW` | d | `5.0` | <code><abbr title="java.lang.Double">Double</abbr></code> |
+| `flatH` | d | `5.0` | <code><abbr title="java.lang.Double">Double</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Terrains.sumoArena()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ### Builder `sim.terrain.uphill()`
 
