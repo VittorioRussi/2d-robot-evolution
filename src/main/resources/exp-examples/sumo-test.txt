@@ -18,7 +18,7 @@ ea.experiment(
         nPop = 5
       );
       problem = ea.p.simTo(
-        simulation = s.task.sumo(duration = 3; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
+        simulation = s.task.sumo(duration = 10; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
         f = s.f.outcome.faXVelocity();
         type = maximize
       )
@@ -38,7 +38,7 @@ ea.experiment(
         preprocessor = ea.f.toVideo(
             of = ea.f.solution();
             video = sim.taskVideoBuilder(
-                task = s.task.sumo(duration = 3; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
+                task = s.task.sumo(duration = 10; terrain = s.t.sumoArena(h = 20; borderW = 10; borderH = 20; flatW = 5; flatH = 5));
                 drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
             );
             w = 300;
