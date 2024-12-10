@@ -18,27 +18,19 @@ ea.experiment(
         nPop = 5
       );
       problem = ea.p.simTo(
-        simulation = s.task.sumo(duration = 10; terrain = s.t.sumoArena());
-        f = s.f.outcome.faXVelocity();
+        simulation = s.task.sumo(duration = 30; terrain = s.t.sumoArena());
+        f = s.f.outcome.faXDistance();
         type = maximize
       )
     )
   ];
   listeners = [
-    ea.l.console(
-      functions = [
-        ea.f.size(of = ea.f.genotype(of = ea.f.best()); format = "%3d");
-        s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality(of = ea.f.best())); format = "%6.4f");
-        ea.f.hist(of = f.each(of = ea.f.all(); mapF = s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality()))));
-        f.percentile(of = f.each(of = ea.f.all(); mapF = s.f.outcome.faXVelocity(of = ea.f.simOutcome(of = ea.f.quality()))); p = 75; format = "%6.4f")
-      ]
-    );
     ea.l.onRunDone(
         of = ea.a.lastBest();
         preprocessor = ea.f.toVideo(
             of = ea.f.solution();
             video = sim.taskVideoBuilder(
-                task = s.task.sumo(duration = 10; terrain = s.t.sumoArena());
+                task = s.task.sumo(duration = 30; terrain = s.t.sumoArena());
                 drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
             );
             w = 300;
