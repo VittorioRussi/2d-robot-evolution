@@ -14,11 +14,11 @@ ea.experiment(
           );
           of = ea.m.dsToNpnds(npnds = ds.num.mlp())
         );
-        nEval = 500;
-        nPop = 500
+        nEval = 100;
+        nPop = 10
       );
       problem = ea.p.simTo(
-        simulation = s.task.sumo(duration = 10; terrain = s.t.sumoArena());
+        simulation = s.task.trainingsumo(duration = 10; terrain = s.t.sumoArena());
         f = s.f.outcome.faXDistance();
         type = maximize
       )
@@ -30,7 +30,7 @@ ea.experiment(
         preprocessor = ea.f.toVideo(
             of = ea.f.solution();
             video = sim.taskVideoBuilder(
-                task = s.task.sumo(duration = 10; terrain = s.t.sumoArena());
+                task = s.task.trainingsumo(duration = 10; terrain = s.t.sumoArena());
                 drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
             );
             w = 600;
