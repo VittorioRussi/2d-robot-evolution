@@ -15,8 +15,8 @@ ea.experiment(
           of = ea.m.noisedNds(of = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2))
 
         );
-        nEval = 1000;
-        nPop = 100
+        nEval = 100;
+        nPop = 10
       );
       problem = ea.p.simTo(
         simulation = s.task.trainingSumo(duration = 10; terrain = s.t.sumoArena());
