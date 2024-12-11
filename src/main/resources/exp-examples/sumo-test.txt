@@ -15,12 +15,12 @@ ea.experiment(
           of = ea.m.noisedNds(of = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2))
 
         );
-        nEval = 100;
-        nPop = 10
+        nEval = 1000;
+        nPop = 100
       );
       problem = ea.p.simTo(
         simulation = s.task.trainingSumo(duration = 10; terrain = s.t.sumoArena());
-        f = s.f.outcome.faXVelocity();
+        f = s.f.outcome.scoreSumoAgent();
         type = maximize
       )
     )
