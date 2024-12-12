@@ -53,3 +53,6 @@ ea.experiment(
     )
   ]
 )
+
+
+java -jar IdeaProjects/2d-robot-evolution/io.github.ericmedvet.robotevo2d.main/target/robotevo2d.main-1.5.1-SNAPSHOT-jar-with-dependencies.jar -nt 16 -nr 2 -f Documents/Experiments/TextExperiments/sumo-vs-box.txt
