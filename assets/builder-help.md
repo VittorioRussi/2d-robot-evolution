@@ -4616,29 +4616,17 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 
 Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.faXVelocity()` by robotevo2d-main:1.5.1-SNAPSHOT
 
-### Builder `sim.function.outcome.scoreSumoAgent1()`
+### Builder `sim.function.outcome.scoreSumoAgentvsBox()`
 
-`s.f.o.scoreSumoAgent1(transientTime; of; format)`
-
-| Param | Type | Default | Java type |
-| --- | --- | --- | --- |
-| `transientTime` | d | `5.0` | <code>double</code> |
-| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.AgentsOutcome">AgentsOutcome</abbr>&lt;?&gt;&gt;</code> |
-| `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
-
-Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.scoreSumoAgent1()` by robotevo2d-main:1.5.1-SNAPSHOT
-
-### Builder `sim.function.outcome.scoreSumoAgent2()`
-
-`s.f.o.scoreSumoAgent2(transientTime; of; format)`
+`s.f.o.scoreSumoAgentvsBox(transientTime; of; format)`
 
 | Param | Type | Default | Java type |
 | --- | --- | --- | --- |
 | `transientTime` | d | `5.0` | <code>double</code> |
-| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.AgentsOutcome">AgentsOutcome</abbr>&lt;?&gt;&gt;</code> |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.trainingsumo.TrainingSumoAgentOutcome">TrainingSumoAgentOutcome</abbr>&gt;</code> |
 | `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
 
-Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.scoreSumoAgent2()` by robotevo2d-main:1.5.1-SNAPSHOT
+Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.scoreSumoAgentvsBox()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ## Package `sim.sensors`
 
@@ -4829,6 +4817,17 @@ Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.piling.Stand
 | `terrain` | npm | `sim.terrain.sumoArena()` | <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code> |
 
 Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo">Sumo</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.sumo()` by robotevo2d-main:1.5.1-SNAPSHOT
+
+### Builder `sim.task.trainingSumo()`
+
+`s.task.trainingSumo(duration; terrain)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `duration` | d | `60.0` | <code>double</code> |
+| `terrain` | npm | `sim.terrain.sumoArena()` | <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.trainingsumo.TrainingSumo">TrainingSumo</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.trainingSumo()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ## Package `sim.terrain`
 
