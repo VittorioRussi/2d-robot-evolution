@@ -1,5 +1,5 @@
 ea.experiment(
-  runs = (randomGenerator = (seed = [1:1:10]) * [m.defaultRG()]) * [
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) * [
     ea.run(
       solver = ea.s.ga(
         representation = ea.r.doubleString();
@@ -13,12 +13,12 @@ ea.experiment(
             second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
           )
         );
-        nEval = 20000;
-        nPop = 100
+        nEval = 100;
+        nPop = 10
       );
       problem = ea.p.simTo(
-        simulation = s.task.trainingSumo(duration = 30; terrain = s.t.sumoArena());
-        f = s.f.outcome.scoreSumoAgentvsBox();
+        simulation = s.task.trainingFight(duration = 30; terrain = s.t.sumoArena());
+        f = s.f.outcome.scoreSumoAgent1vs2();
         type = maximize
       )
     )
@@ -29,7 +29,7 @@ ea.experiment(
       preprocessor = ea.f.toVideo(
         of = ea.f.solution();
         video = sim.taskVideoBuilder(
-          task = s.task.trainingSumo(duration = 30; terrain = s.t.sumoArena());
+          task = s.task.trainingFight(duration = 30; terrain = s.t.sumoArena());
           drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
         );
         w = 400;
