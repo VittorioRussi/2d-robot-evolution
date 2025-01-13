@@ -1,0 +1,65 @@
+ea.experiment(
+  runs = (randomGenerator = (seed = [1:1:1]) * [m.defaultRG()]) * [
+    ea.run(
+      solver = ea.s.ga(
+        representation = ea.r.doubleString();
+        mapper = er.m.bodyBrainHomoDistributedVSR(
+          w = 8;
+          h = 8;
+          sensors = [s.s.a(); s.s.ar(); s.s.rv(a = 0); s.s.rv(a = 90)];
+          of = ea.m.pair(
+            of = ea.m.dsSplit();
+            first = ea.m.dsToFixedGrid(negItem = s.a.vsr.voxel(type = none); posItem = s.a.vsr.voxel(type = soft));
+            second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
+          )
+        );
+        nEval = 100;
+        nPop = 10
+      );
+      problem = ea.p.simTo(
+        simulation = s.task.trainingFight(duration = 30; terrain = s.t.sumoArena());
+        f = s.f.outcome.scoreSumoAgent1vs2();
+        type = maximize
+      )
+    )
+  ];
+  listeners = [
+    ea.l.onRunDone(
+      of = ea.a.lastBest();
+      preprocessor = ea.f.toVideo(
+        of = ea.f.solution();
+        video = sim.taskVideoBuilder(
+          task = s.task.trainingFight(duration = 30; terrain = s.t.sumoArena());
+          drawer = sim.drawer(framer = sim.staticFramer(minX = 10.0; maxX = 34.0; minY = 0.0; maxY = 15.0))
+        );
+        w = 400;
+        h = 300;
+        encoder = jcodec
+      );
+      consumers = [ea.c.saver(path = "../../Documents/Experiments/{name}/video-{run.index}--body-af(1)-bf(0.5)")]
+    );
+    ea.l.console(
+      functions = [
+        f.gridFitW(of = s.f.vsrBody(of = ea.f.supplied(of = ea.f.solution(of = ea.f.best()))));
+        f.gridFitH(of = s.f.vsrBody(of = ea.f.supplied(of = ea.f.solution(of = ea.f.best()))));
+        f.gridCount(of = s.f.vsrBody(of = ea.f.supplied(of = ea.f.solution(of = ea.f.best()))));
+        ea.f.simQuality(of = ea.f.quality(of = ea.f.best(); format = "%6.2f"));
+        f.percentile(of = f.each(of = ea.f.all(); mapF = ea.f.simQuality(of = ea.f.quality())); p = 75; format = "%6.2f")
+      ]
+    );
+    ea.l.savePlotForExp(
+      path = "../../Documents/Experiments/{name}/best-fitness-af(1)-bf(0.5)";
+      plot = ea.plot.multi.quality(
+        x = ea.f.nOfEvals();
+        y = ea.f.simQuality(of = ea.f.quality(of = ea.f.best()))
+      )
+    );
+    ea.l.savePlotForExp(
+      path = "../../Documents/Experiments/{name}/voxelsCount-{run.index}";
+      plot = ea.plot.multi.quality(
+        x = ea.f.nOfEvals();
+        y = f.gridCount(of = s.f.vsrBody(of = ea.f.supplied(of = ea.f.solution(of = ea.f.best()))))
+      )
+    )
+  ]
+)
