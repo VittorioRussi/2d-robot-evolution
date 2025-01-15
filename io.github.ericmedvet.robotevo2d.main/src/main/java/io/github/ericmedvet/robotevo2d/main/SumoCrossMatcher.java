@@ -21,26 +21,19 @@ package io.github.ericmedvet.robotevo2d.main;
 
 import io.github.ericmedvet.jgea.core.InvertibleMapper;
 import io.github.ericmedvet.jnb.core.NamedBuilder;
-import io.github.ericmedvet.jnb.datastructure.DoubleRange;
-import io.github.ericmedvet.jnb.datastructure.NumericalParametrized;
-import io.github.ericmedvet.jsdynsym.core.composed.Composed;
 import io.github.ericmedvet.mrsim2d.core.EmbodiedAgent;
-import io.github.ericmedvet.mrsim2d.core.NumMultiBrained;
 import io.github.ericmedvet.mrsim2d.core.Snapshot;
 import io.github.ericmedvet.mrsim2d.core.agents.gridvsr.CentralizedNumGridVSR;
 import io.github.ericmedvet.mrsim2d.core.agents.gridvsr.DistributedNumGridVSR;
 import io.github.ericmedvet.mrsim2d.core.engine.Engine;
 import io.github.ericmedvet.mrsim2d.core.geometry.Terrain;
 import io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo;
-import io.github.ericmedvet.mrsim2d.core.tasks.trainingsumo.TrainingSumo;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -141,8 +134,14 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     }
     return robots;
   }
+
   private static Runnable taskOn(
-          NamedBuilder<?> nb, Supplier<Engine> engineSupplier, Consumer<Snapshot> consumer, String terrain, Supplier<EmbodiedAgent> agentSupplier1, Supplier<EmbodiedAgent> agentSupplier2) {
+      NamedBuilder<?> nb,
+      Supplier<Engine> engineSupplier,
+      Consumer<Snapshot> consumer,
+      String terrain,
+      Supplier<EmbodiedAgent> agentSupplier1,
+      Supplier<EmbodiedAgent> agentSupplier2) {
     // prepare task
     Sumo sumo = new Sumo(30, (Terrain) nb.build(terrain));
 
