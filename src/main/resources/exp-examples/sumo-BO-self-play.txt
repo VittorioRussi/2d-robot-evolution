@@ -14,8 +14,8 @@ ea.experiment(
           );
           of = ea.m.dsToNpnds(npnds = ds.num.mlp())
         );
-        nEval = 20000;
-        nPop = 100
+        nEval = 100;
+        nPop = 10
       );
       problem = ea.p.simTo(
         simulation = s.task.trainingFight(duration = 30; terrain = s.t.sumoArena());
