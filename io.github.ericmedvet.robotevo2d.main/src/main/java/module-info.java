@@ -44,4 +44,6 @@ module io.github.ericmedvet.robotevo2d.main {
 
   opens io.github.ericmedvet.robotevo2d.main.dynamicalsystems to
       io.github.ericmedvet.jnb.core;
+
+  uses io.github.ericmedvet.mrsim2d.core.engine.Engine;
 }
