@@ -4616,13 +4616,25 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 
 Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.faXVelocity()` by robotevo2d-main:1.5.1-SNAPSHOT
 
+### Builder `sim.function.outcome.scoreSumoAgent1vs1()`
+
+`s.f.o.scoreSumoAgent1vs1(transientTime; of; format)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `transientTime` | d | `0.0` | <code>double</code> |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.trainingfight.TrainingFightAgentOutcome">TrainingFightAgentOutcome</abbr>&gt;</code> |
+| `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
+
+Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.OutcomeFunctions.scoreSumoAgent1vs1()` by robotevo2d-main:1.5.1-SNAPSHOT
+
 ### Builder `sim.function.outcome.scoreSumoAgent1vs2()`
 
 `s.f.o.scoreSumoAgent1vs2(transientTime; of; format)`
 
 | Param | Type | Default | Java type |
 | --- | --- | --- | --- |
-| `transientTime` | d | `5.0` | <code>double</code> |
+| `transientTime` | d | `0.0` | <code>double</code> |
 | `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.sumo.SumoAgentsOutcome">SumoAgentsOutcome</abbr>&gt;</code> |
 | `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
 
@@ -4634,7 +4646,7 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 
 | Param | Type | Default | Java type |
 | --- | --- | --- | --- |
-| `transientTime` | d | `5.0` | <code>double</code> |
+| `transientTime` | d | `0.0` | <code>double</code> |
 | `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.sumo.SumoAgentsOutcome">SumoAgentsOutcome</abbr>&gt;</code> |
 | `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
 
@@ -4646,7 +4658,7 @@ Produces <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <
 
 | Param | Type | Default | Java type |
 | --- | --- | --- | --- |
-| `transientTime` | d | `5.0` | <code>double</code> |
+| `transientTime` | d | `0.0` | <code>double</code> |
 | `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.mrsim2d.core.tasks.trainingsumo.TrainingSumoAgentOutcome">TrainingSumoAgentOutcome</abbr>&gt;</code> |
 | `format` | s | `%.1f` | <code><abbr title="java.lang.String">String</abbr></code> |
 
@@ -4841,6 +4853,17 @@ Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.piling.Stand
 | `terrain` | npm | `sim.terrain.sumoArena()` | <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code> |
 
 Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo">Sumo</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.sumo()` by robotevo2d-main:1.5.1-SNAPSHOT
+
+### Builder `sim.task.trainingFight()`
+
+`s.task.trainingFight(duration; terrain)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `duration` | d | `60.0` | <code>double</code> |
+| `terrain` | npm | `sim.terrain.sumoArena()` | <code><abbr title="io.github.ericmedvet.mrsim2d.core.geometry.Terrain">Terrain</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.mrsim2d.core.tasks.trainingfight.TrainingFight">TrainingFight</abbr></code>; built from `io.github.ericmedvet.mrsim2d.buildable.builders.Tasks.trainingFight()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ### Builder `sim.task.trainingSumo()`
 
