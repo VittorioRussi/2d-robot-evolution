@@ -14,6 +14,12 @@ Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.navigation.Nav
 
 Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.navigation.PointNavigationDrawer">PointNavigationDrawer</abbr></code>; built from `io.github.ericmedvet.jsdynsym.buildable.builders.Drawers.pointNavigation()` by robotevo2d-main:1.5.1-SNAPSHOT
 
+### Builder `dynamicalSystem.drawer.pong()`
+
+`ds.d.pong()`
+
+Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.pong.PongDrawer">PongDrawer</abbr></code>; built from `io.github.ericmedvet.jsdynsym.buildable.builders.Drawers.pong()` by robotevo2d-main:1.5.1-SNAPSHOT
+
 ### Builder `dynamicalSystem.drawer.vectorField()`
 
 `ds.d.vectorField(arena)`
@@ -71,9 +77,45 @@ Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.navigation.Nav
 
 Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.navigation.PointNavigationEnvironment">PointNavigationEnvironment</abbr></code>; built from `io.github.ericmedvet.jsdynsym.buildable.builders.Environments.pointNavigation()` by robotevo2d-main:1.5.1-SNAPSHOT
 
+### Builder `dynamicalSystem.environment.pong()`
+
+`ds.e.pong(racketsInitialYRange; racketsLength; racketsEdgeRadius; racketsMaxYVelocity; racketsFriction; spinEffectFactor; ballInitialVelocity; ballMaxVelocity; ballInitialAngleRange; ballAccelerationRatePerPoint; arenaXLength; arenaYLength; maximumTimePerPoint; randomGenerator)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `racketsInitialYRange` | npm | `m.range(min = 22; max = 28)` | <code><abbr title="io.github.ericmedvet.jnb.datastructure.DoubleRange">DoubleRange</abbr></code> |
+| `racketsLength` | d | `5.0` | <code>double</code> |
+| `racketsEdgeRadius` | d | `1.5` | <code>double</code> |
+| `racketsMaxYVelocity` | d | `10.0` | <code>double</code> |
+| `racketsFriction` | d | `0.1` | <code>double</code> |
+| `spinEffectFactor` | d | `0.001` | <code>double</code> |
+| `ballInitialVelocity` | d | `30.0` | <code>double</code> |
+| `ballMaxVelocity` | d | `80.0` | <code>double</code> |
+| `ballInitialAngleRange` | npm | `m.range(min = -0.39; max = 0.39)` | <code><abbr title="io.github.ericmedvet.jnb.datastructure.DoubleRange">DoubleRange</abbr></code> |
+| `ballAccelerationRatePerPoint` | d | `1.1` | <code>double</code> |
+| `arenaXLength` | d | `60.0` | <code>double</code> |
+| `arenaYLength` | d | `50.0` | <code>double</code> |
+| `maximumTimePerPoint` | d | `1.7976931348623157E308` | <code>double</code> |
+| `randomGenerator` | npm | `m.defaultRG()` | <code><abbr title="java.util.random.RandomGenerator">RandomGenerator</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.jsdynsym.control.pong.PongEnvironment">PongEnvironment</abbr></code>; built from `io.github.ericmedvet.jsdynsym.buildable.builders.Environments.pong()` by robotevo2d-main:1.5.1-SNAPSHOT
+
 ## Package `dynamicalSystem.environment.navigation`
 
 Aliases: `ds.e.n`, `ds.e.nav`, `ds.e.navigation`, `ds.env.n`, `ds.env.nav`, `ds.env.navigation`, `ds.environment.n`, `ds.environment.nav`, `ds.environment.navigation`, `dynSys.e.n`, `dynSys.e.nav`, `dynSys.e.navigation`, `dynSys.env.n`, `dynSys.env.nav`, `dynSys.env.navigation`, `dynSys.environment.n`, `dynSys.environment.nav`, `dynSys.environment.navigation`, `dynamicalSystem.e.n`, `dynamicalSystem.e.nav`, `dynamicalSystem.e.navigation`, `dynamicalSystem.env.n`, `dynamicalSystem.env.nav`, `dynamicalSystem.env.navigation`, `dynamicalSystem.environment.n`, `dynamicalSystem.environment.nav`, `dynamicalSystem.environment.navigation`
+
+### Builder `dynamicalSystem.environment.navigation.arenaCoverage()`
+
+`ds.e.n.arenaCoverage(of; xBins; yBins; format)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.jsdynsym.control.Simulation$Outcome">Simulation$Outcome</abbr>&lt;<abbr title="io.github.ericmedvet.jsdynsym.control.SingleAgentTask$Step">SingleAgentTask$Step</abbr>&lt;double[], double[], <abbr title="io.github.ericmedvet.jsdynsym.control.navigation.State">State</abbr>&gt;&gt;&gt;</code> |
+| `xBins` | i | `10` | <code>int</code> |
+| `yBins` | i | `10` | <code>int</code> |
+| `format` | s | `%5.3f` | <code><abbr title="java.lang.String">String</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.jnb.datastructure.FormattedNamedFunction">FormattedNamedFunction</abbr>&lt;X, <abbr title="java.lang.Double">Double</abbr>&gt;</code>; built from `io.github.ericmedvet.jsdynsym.buildable.builders.NavigationFunctions.arenaCoverage()` by robotevo2d-main:1.5.1-SNAPSHOT
 
 ### Builder `dynamicalSystem.environment.navigation.avgD()`
 
@@ -320,7 +362,7 @@ Aliases: `ds.s`, `ds.sim`, `ds.simulation`, `dynSys.s`, `dynSys.sim`, `dynSys.si
 
 ### Builder `dynamicalSystem.simulation.variableSensorPositionsNavigation()`
 
-`ds.s.variableSensorPositionsNavigation(name; initialRobotXRange; initialRobotYRange; initialRobotDirectionRange; targetXRange; targetYRange; robotRadius; robotMaxV; nOfSensors; sensorRange; senseTarget; arena; rescaleInput; randomGenerator; dT; initialT; finalT)`
+`ds.s.variableSensorPositionsNavigation(name; initialRobotXRange; initialRobotYRange; initialRobotDirectionRange; targetXRange; targetYRange; robotRadius; robotMaxV; nOfSensors; sensorRange; senseTarget; arena; rescaleInput; sortAngles; randomGenerator; dT; initialT; finalT)`
 
 | Param | Type | Default | Java type |
 | --- | --- | --- | --- |
@@ -337,6 +379,7 @@ Aliases: `ds.s`, `ds.sim`, `ds.simulation`, `dynSys.s`, `dynSys.sim`, `dynSys.si
 | `senseTarget` | b | `true` | <code>boolean</code> |
 | `arena` | e | `EMPTY` | <code><abbr title="io.github.ericmedvet.jsdynsym.control.navigation.Arena$Prepared">Arena$Prepared</abbr></code> |
 | `rescaleInput` | b | `true` | <code>boolean</code> |
+| `sortAngles` | b | `true` | <code>boolean</code> |
 | `randomGenerator` | npm | `m.defaultRG()` | <code><abbr title="java.util.random.RandomGenerator">RandomGenerator</abbr></code> |
 | `dT` | d | `0.1` | <code>double</code> |
 | `initialT` | d | `0.0` | <code>double</code> |

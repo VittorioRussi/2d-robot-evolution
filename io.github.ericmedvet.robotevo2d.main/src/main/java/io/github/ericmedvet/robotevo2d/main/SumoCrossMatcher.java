@@ -85,7 +85,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
         (InvertibleMapper<List<Double>, Supplier<DistributedNumGridVSR>>) nb.build(BB_MAPPER);
 
     String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
-    //        String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
+    String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
     //        String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
 
@@ -94,8 +94,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
     try {
       List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
-      //            List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
-      List<Supplier<CentralizedNumGridVSR>> robots2 = loadRobotsFromDirectory(BOSP, boMapper);
+      List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
+      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
       //            List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
@@ -106,17 +106,15 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
           .apply("test");
 
       List<String> teamNames = List.of(
-          "BOB",
-          //                    "BBB",
-          "BOSP"
+          "BOB", "BBB", "BOSP"
           //                    ,
           //                    "BBSP"
           );
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
           (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2
-          //                    ,
-          //                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3
+          //              ,
           //                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4
           );
 
@@ -204,18 +202,16 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
   public static void saveResultsAsCsv(String filePath, List<String> teamNames, String[][] resultsMatrix)
       throws IOException {
     try (FileWriter writer = new FileWriter(filePath)) {
-      // Scrivi la prima cella vuota
+
       writer.append("Home Team\\Away Team,");
 
-      // Scrivi i nomi delle squadre in trasferta nella prima riga
       for (String teamName : teamNames) {
         writer.append(teamName).append(",");
       }
       writer.append("\n");
 
-      // Scrivi i risultati
       for (int i = 0; i < teamNames.size(); i++) {
-        // Scrivi il nome della squadra in casa nella prima colonna di ogni riga
+
         writer.append(teamNames.get(i)).append(",");
         for (int j = 0; j < teamNames.size(); j++) {
           if (i != j) {
