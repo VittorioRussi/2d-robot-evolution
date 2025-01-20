@@ -87,8 +87,12 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
     String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
-    //        String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
 
+    String SUMO = "../../Documents/Experiments/sumo-Test.txt/agents";
+
+    String sumoResultsPath = "../../Documents/Experiments/Results-SumoTest/results.csv";
+    String sumoDetailedPath = "../../Documents/Experiments/Results-SumoTest/detailedResults.csv";
     String resultsFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/results.csv";
     String detailedResultsCsvFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/detailedResults.csv";
 
@@ -96,7 +100,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
       List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
       List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
       List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
-      //            List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
+      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
       @SuppressWarnings("unchecked")
@@ -106,16 +110,13 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
           .apply("test");
 
       List<String> teamNames = List.of(
-          "BOB", "BBB", "BOSP"
-          //                    ,
-          //                    "BBSP"
+          "BOB", "BBB", "BOSP", "BBSP"
           );
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
           (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
           (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3
-          //              ,
-          //                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4
           );
 
       String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
