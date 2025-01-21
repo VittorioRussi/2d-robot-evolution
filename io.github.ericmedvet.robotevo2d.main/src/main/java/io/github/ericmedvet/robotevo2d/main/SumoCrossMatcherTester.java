@@ -33,6 +33,7 @@ import io.github.ericmedvet.mrsim2d.core.geometry.Terrain;
 import io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo;
 import io.github.ericmedvet.mrsim2d.core.tasks.sumo.SumoAgentsOutcome;
 import io.github.ericmedvet.mrsim2d.viewer.Drawer;
+import io.github.ericmedvet.mrsim2d.viewer.RealtimeViewer;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,20 +47,19 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SumoCrossMatcher {
+public class SumoCrossMatcherTester {
   private static final String BO_MAPPER =
       """
 er.m.ndsToFixedBodyCentralizedVSR(
 body = s.a.vsr.gridBody(
-sensorizingFunction = s.a.vsr.sf.directional(
-headSensors = [s.s.sin(f = 0); s.s.d(a = -15; r = 5)];
-nSensors = [s.s.ar(); s.s.v(a = 0); s.s.v(a = 90)];
-sSensors = [s.s.d(a = -90)]
+sensorizingFunction = s.a.vsr.sf.uniform(
+sensors = [s.s.ar()]
 );
-shape = s.a.vsr.s.biped(w = 4; h = 3)
+shape = s.a.vsr.s.worm(w = 3; h = 1)
 );
 of = ea.m.dsToNpnds(npnds = ds.num.mlp())
 )
+
 """;
   private static final String BB_MAPPER =
       """
@@ -88,6 +88,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
     String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+    String worm1 = "../../Documents/Experiments/worm-SP.txt/agents";
+    String worm2 = "../../Documents/Experiments/worm-SP.txt/agents";
 
     //    String SUMO = "../../Documents/Experiments/sumo-Test.txt/agents";
 
@@ -97,8 +99,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String detailedResultsCsvFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/detailedResults.csv";
 
     try {
-      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
-      List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
+      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(worm1, boMapper);
+      List<Supplier<CentralizedNumGridVSR>> robots2 = loadRobotsFromDirectory(worm2, boMapper);
       List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
       List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
       Supplier<Engine> engineSupplier =
@@ -109,12 +111,17 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
                   "sim.drawer(framer = sim.staticFramer(minX = 15.0; maxX = 45.0; minY = 10.0; maxY = 25.0); actions = true)"))
           .apply("test");
 
-      List<String> teamNames = List.of("BOB", "BBB", "BOSP", "BBSP");
+      List<String> teamNames = List.of(
+          "BOB", "BBB"
+          //              , "BOSP", "BBSP"
+          );
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
           (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4);
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2
+          //              ,
+          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4
+          );
 
       String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
       for (int i = 0; i < allRobots.size(); i++) {
@@ -156,8 +163,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
                 Runnable task = taskOn(
                     nb,
                     engineSupplier,
-                    snapshot -> {},
-                    //                                        new RealtimeViewer(30, drawer),
+                    //                    snapshot -> {},
+                    new RealtimeViewer(30, drawer),
                     "s.t.sumoArena()",
                     robotSupplier1,
                     robotSupplier2,

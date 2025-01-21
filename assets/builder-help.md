@@ -644,6 +644,17 @@ Produces <code><abbr title="io.github.ericmedvet.jnb.datastructure.NamedFunction
 
 Produces <code><abbr title="io.github.ericmedvet.jnb.datastructure.NamedFunction">NamedFunction</abbr>&lt;X, I&gt;</code>; built from `io.github.ericmedvet.jgea.experimenter.builders.Functions.best()` by robotevo2d-main:1.5.1-SNAPSHOT
 
+### Builder `ea.function.biSimQuality()`
+
+`ea.f.biSimQuality(of; format)`
+
+| Param | Type | Default | Java type |
+| --- | --- | --- | --- |
+| `of` | npm | `f.identity()` | <code><abbr title="java.util.function.Function">Function</abbr>&lt;X, <abbr title="io.github.ericmedvet.jgea.problem.simulation.SimulationBasedProblem$QualityOutcome">SimulationBasedProblem$QualityOutcome</abbr>&lt;B, O, Q&gt;&gt;</code> |
+| `format` | s | `%s` | <code><abbr title="java.lang.String">String</abbr></code> |
+
+Produces <code><abbr title="io.github.ericmedvet.jnb.datastructure.FormattedNamedFunction">FormattedNamedFunction</abbr>&lt;X, Q&gt;</code>; built from `io.github.ericmedvet.jgea.experimenter.builders.Functions.biSimQuality()` by robotevo2d-main:1.5.1-SNAPSHOT
+
 ### Builder `ea.function.coMeArchive1()`
 
 `ea.f.coMeArchive1(of)`
