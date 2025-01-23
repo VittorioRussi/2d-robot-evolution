@@ -84,10 +84,10 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     InvertibleMapper<List<Double>, Supplier<DistributedNumGridVSR>> bbMapper =
         (InvertibleMapper<List<Double>, Supplier<DistributedNumGridVSR>>) nb.build(BB_MAPPER);
 
-//    String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
-//    String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
-//    String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
-//    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+    //    String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
+    //    String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
+    //    String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
+    //    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
     String worm1 = "../../Documents/Experiments/worm-SP.txt/agents";
     String worm2 = "../../Documents/Experiments/worm-SP.txt/agents";
 
@@ -101,8 +101,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     try {
       List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(worm1, boMapper);
       List<Supplier<CentralizedNumGridVSR>> robots2 = loadRobotsFromDirectory(worm2, boMapper);
-//      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
-//      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
+      //      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
+      //      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
       @SuppressWarnings("unchecked")
