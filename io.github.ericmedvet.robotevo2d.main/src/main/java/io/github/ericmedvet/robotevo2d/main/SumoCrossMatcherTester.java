@@ -52,14 +52,15 @@ public class SumoCrossMatcherTester {
       """
 er.m.ndsToFixedBodyCentralizedVSR(
 body = s.a.vsr.gridBody(
-sensorizingFunction = s.a.vsr.sf.uniform(
-sensors = [s.s.ar()]
+sensorizingFunction = s.a.vsr.sf.directional(
+headSensors = [s.s.sin(f = 0); s.s.d(a = -15; r = 5)];
+nSensors = [s.s.ar(); s.s.v(a = 0); s.s.v(a = 90)];
+sSensors = [s.s.d(a = -90)]
 );
-shape = s.a.vsr.s.worm(w = 3; h = 1)
+shape = s.a.vsr.s.biped(w = 4; h = 3)
 );
 of = ea.m.dsToNpnds(npnds = ds.num.mlp())
 )
-
 """;
   private static final String BB_MAPPER =
       """
@@ -87,9 +88,9 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     //    String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
     //    String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     //    String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
-    //    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
-    String worm1 = "../../Documents/Experiments/worm-SP.txt/agents";
-    String worm2 = "../../Documents/Experiments/worm-SP.txt/agents";
+    //    String BBSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
+    String BOSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
 
     //    String SUMO = "../../Documents/Experiments/sumo-Test.txt/agents";
 
@@ -99,10 +100,10 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String detailedResultsCsvFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/detailedResults.csv";
 
     try {
-      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(worm1, boMapper);
-      List<Supplier<CentralizedNumGridVSR>> robots2 = loadRobotsFromDirectory(worm2, boMapper);
       //      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
-      //      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
+      //      List<Supplier<CentralizedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, boMapper);
+      List<Supplier<DistributedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, bbMapper);
+      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
       @SuppressWarnings("unchecked")
@@ -116,12 +117,11 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
           //              , "BOSP", "BBSP"
           );
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2
+          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
+          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2
           //              ,
-          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
-          //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4
-          );
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4);
 
       String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
       for (int i = 0; i < allRobots.size(); i++) {
@@ -144,7 +144,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
       for (int i = 0; i < allRobots.size(); i++) {
         for (int j = 0; j < allRobots.size(); j++) {
-          if (i != j) {
+          if (i == j) {
             List<Supplier<? extends EmbodiedAgent>> team1 = allRobots.get(i);
             List<Supplier<? extends EmbodiedAgent>> team2 = allRobots.get(j);
 
@@ -290,7 +290,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
       int agentNumber2) {
     return () -> {
       try {
-        Sumo sumo = new Sumo(30, (Terrain) nb.build(terrain));
+        Sumo sumo = new Sumo(10, (Terrain) nb.build(terrain));
         Engine engine = engineSupplier.get();
         SumoAgentsOutcome outcome = sumo.run(
             (Supplier<EmbodiedAgent>) agentSupplier1,
