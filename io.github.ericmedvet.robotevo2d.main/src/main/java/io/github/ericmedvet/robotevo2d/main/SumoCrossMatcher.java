@@ -66,7 +66,7 @@ of = ea.m.dsToNpnds(npnds = ds.num.mlp())
 er.m.bodyBrainHomoDistributedVSR(
 w = 8;
 h = 8;
-sensors = [s.s.a(); s.s.ar(); s.s.rv(a = 0); s.s.rv(a = 90)];
+sensors = [s.s.a(); s.s.ar(); s.s.v(a = 0); s.s.v(a = 90)];
 of = ea.m.pair(
 of = ea.m.dsSplit();
 first = ea.m.dsToFixedGrid(negItem = s.a.vsr.voxel(type = none); posItem = s.a.vsr.voxel(type = soft));
