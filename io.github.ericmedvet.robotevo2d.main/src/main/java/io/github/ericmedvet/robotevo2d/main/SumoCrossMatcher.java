@@ -29,10 +29,11 @@ import io.github.ericmedvet.mrsim2d.core.Snapshot;
 import io.github.ericmedvet.mrsim2d.core.agents.gridvsr.CentralizedNumGridVSR;
 import io.github.ericmedvet.mrsim2d.core.agents.gridvsr.DistributedNumGridVSR;
 import io.github.ericmedvet.mrsim2d.core.engine.Engine;
-import io.github.ericmedvet.mrsim2d.core.geometry.Terrain;
 import io.github.ericmedvet.mrsim2d.core.tasks.sumo.Sumo;
 import io.github.ericmedvet.mrsim2d.core.tasks.sumo.SumoAgentsOutcome;
 import io.github.ericmedvet.mrsim2d.viewer.Drawer;
+import io.github.ericmedvet.mrsim2d.viewer.RealtimeViewer;
+
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -66,7 +67,7 @@ of = ea.m.dsToNpnds(npnds = ds.num.mlp())
 er.m.bodyBrainHomoDistributedVSR(
 w = 8;
 h = 8;
-sensors = [s.s.a(); s.s.ar(); s.s.v(a = 0); s.s.v(a = 90)];
+sensors = [s.s.ar(); s.s.v(a = 0); s.s.v(a = 90)];
 of = ea.m.pair(
 of = ea.m.dsSplit();
 first = ea.m.dsToFixedGrid(negItem = s.a.vsr.voxel(type = none); posItem = s.a.vsr.voxel(type = soft));
@@ -88,33 +89,37 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
     String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+    String BOBIGA = "../../Documents/Experiments/sumo-BO-biGa.txt/agents";
+    String BBBIGA = "../../Documents/Experiments/sumo-BB-biGa.txt/agents";
 
-    //    String SUMO = "../../Documents/Experiments/sumo-Test.txt/agents";
-
-    String sumoResultsPath = "../../Documents/Experiments/Results-SumoTest/results.csv";
-    String sumoDetailedPath = "../../Documents/Experiments/Results-SumoTest/detailedResults.csv";
-    String resultsFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/results.csv";
-    String detailedResultsCsvFilePath = "../../Documents/Experiments/ResultsBOB-BBB-BOSP-BBSP/detailedResults.csv";
+    String resultsFilePath = "../../Documents/Experiments/Results/results.csv";
+    String detailedResultsCsvFilePath = "../../Documents/Experiments/Results/detailedResults.csv";
 
     try {
-      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
-      List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
-      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
-      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
+//      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
+//      List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
+//      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
+//      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
+      List<Supplier<CentralizedNumGridVSR>> robots5 = loadRobotsFromDirectory(BOBIGA, boMapper);
+      List<Supplier<DistributedNumGridVSR>> robots6 = loadRobotsFromDirectory(BBBIGA, bbMapper);
+
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
       @SuppressWarnings("unchecked")
       Drawer drawer = ((Function<String, Drawer>)
               nb.build(
-                  "sim.drawer(framer = sim.staticFramer(minX = 15.0; maxX = 45.0; minY = 10.0; maxY = 25.0); actions = true)"))
+                  "sim.drawer(framer = sim.staticFramer(minX = 5.0; maxX = 40.0; minY = 10.0; maxY = 25.0); actions = true)"))
           .apply("test");
 
       List<String> teamNames = List.of("BOB", "BBB", "BOSP", "BBSP");
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4);
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots5,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots6
+              );
 
       String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
       for (int i = 0; i < allRobots.size(); i++) {
@@ -137,7 +142,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
       for (int i = 0; i < allRobots.size(); i++) {
         for (int j = 0; j < allRobots.size(); j++) {
-          if (i != j) {
+          if (i == j) {
             List<Supplier<? extends EmbodiedAgent>> team1 = allRobots.get(i);
             List<Supplier<? extends EmbodiedAgent>> team2 = allRobots.get(j);
 
@@ -148,16 +153,16 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
             for (int k = 0; k < team1.size(); k++) {
               Supplier<? extends EmbodiedAgent> robotSupplier1 = team1.get(k);
-              for (int p = 0; p < team2.size(); p++) {
-                Supplier<? extends EmbodiedAgent> robotSupplier2 = team2.get(p);
+//              for (int p = 0; p < team2.size(); p++) {
+                Supplier<? extends EmbodiedAgent> robotSupplier2 = team2.get(k);
 
-                System.out.printf("Agent%d vs Agent%d:%n", k, p);
+                System.out.printf("Agent%d vs Agent%d:%n", k, k);
 
                 Runnable task = taskOn(
                     nb,
                     engineSupplier,
-                    snapshot -> {},
-                    //                                        new RealtimeViewer(30, drawer),
+//                    snapshot -> {},
+                    new RealtimeViewer(30, drawer),
                     "s.t.sumoArena()",
                     robotSupplier1,
                     robotSupplier2,
@@ -171,9 +176,9 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
                     true,
                     detailedResultsCsvFilePath,
                     k,
-                    p);
+                    k);
                 task.run();
-              }
+//              }
             }
           }
         }
@@ -283,8 +288,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
       int agentNumber2) {
     return () -> {
       try {
-        Sumo sumo = new Sumo(30, (Terrain) nb.build(terrain));
-        Engine engine = engineSupplier.get();
+        Sumo sumo = new Sumo(5);
+//        Engine engine = engineSupplier.get();
         SumoAgentsOutcome outcome = sumo.run(
             (Supplier<EmbodiedAgent>) agentSupplier1,
             (Supplier<EmbodiedAgent>) agentSupplier2,
@@ -315,6 +320,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
         });
 
         String currentResults = resultsMatrix[teamIndex1][teamIndex2];
+        currentResults = currentResults.replace(",", ".");
 
         if (currentResults == null || currentResults.isEmpty() || currentResults.equals("0;0.0")) {
           currentResults = "V: 0; S = 0.0";
