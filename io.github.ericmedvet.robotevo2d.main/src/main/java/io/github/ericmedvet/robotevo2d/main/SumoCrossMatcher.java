@@ -88,9 +88,11 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
     String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
     String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
-    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
-    String BOBIGA = "../../Documents/Experiments/sumo-BO-biGa.txt/agents";
-    String BBBIGA = "../../Documents/Experiments/sumo-BB-biGa.txt/agents";
+//    String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
+//    String BOBIGA = "../../Documents/Experiments/sumo-BO-biGa.txt/agents";
+//    String BBBIGA = "../../Documents/Experiments/sumo-BB-biGa.txt/agents";
+//    String BBBIME = "../../Documents/Experiments/sumo-BB-biMe.txt/agents";
+
 
     String resultsFilePath = "../../Documents/Experiments/Results/results.csv";
     String detailedResultsCsvFilePath = "../../Documents/Experiments/Results/detailedResults.csv";
@@ -98,10 +100,12 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
     try {
 //      List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
 //      List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
-//      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
+      List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
 //      List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
-      List<Supplier<CentralizedNumGridVSR>> robots5 = loadRobotsFromDirectory(BOBIGA, boMapper);
-      List<Supplier<DistributedNumGridVSR>> robots6 = loadRobotsFromDirectory(BBBIGA, bbMapper);
+//      List<Supplier<CentralizedNumGridVSR>> robots5 = loadRobotsFromDirectory(BOBIGA, boMapper);
+//      List<Supplier<DistributedNumGridVSR>> robots6 = loadRobotsFromDirectory(BBBIGA, bbMapper);
+//      List<Supplier<DistributedNumGridVSR>> robots7 = loadRobotsFromDirectory(BBBIME, bbMapper);
+
 
       Supplier<Engine> engineSupplier =
           () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
@@ -115,10 +119,12 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
       List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
 //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
 //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
-//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
+          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3
+//              ,
 //          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots5,
-          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots6
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots5,
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots6,
+//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots7
               );
 
       String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
@@ -142,7 +148,7 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
       for (int i = 0; i < allRobots.size(); i++) {
         for (int j = 0; j < allRobots.size(); j++) {
-          if (i == j) {
+          if (i != j) {
             List<Supplier<? extends EmbodiedAgent>> team1 = allRobots.get(i);
             List<Supplier<? extends EmbodiedAgent>> team2 = allRobots.get(j);
 
@@ -153,8 +159,8 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
 
             for (int k = 0; k < team1.size(); k++) {
               Supplier<? extends EmbodiedAgent> robotSupplier1 = team1.get(k);
-//              for (int p = 0; p < team2.size(); p++) {
-                Supplier<? extends EmbodiedAgent> robotSupplier2 = team2.get(k);
+              for (int p = 0; p < team2.size(); p++) {
+                Supplier<? extends EmbodiedAgent> robotSupplier2 = team2.get(p);
 
                 System.out.printf("Agent%d vs Agent%d:%n", k, k);
 
@@ -176,9 +182,9 @@ second = ea.m.steppedNds(of = ea.m.dsToNpnds(npnds = ds.num.mlp()); stepT = 0.2)
                     true,
                     detailedResultsCsvFilePath,
                     k,
-                    k);
+                    p);
                 task.run();
-//              }
+              }
             }
           }
         }
