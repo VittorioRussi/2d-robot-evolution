@@ -85,27 +85,25 @@ public class SumoCrossMatcher {
         InvertibleMapper<List<Double>, Supplier<DistributedNumGridVSR>> bbMapper =
                 (InvertibleMapper<List<Double>, Supplier<DistributedNumGridVSR>>) nb.build(BB_MAPPER);
 
-        String BOB = "../../Documents/Experiments/sumo-BO-vs-box.txt/agents";
-        String BBB = "../../Documents/Experiments/sumo-BB-vs-box.txt/agents";
-        String BOSP = "../../Documents/Experiments/sumo-BO-self-play.txt/agents";
-        String BBSP = "../../Documents/Experiments/sumo-BB-self-play.txt/agents";
-        String BOBIGA = "../../Documents/Experiments/sumo-BO-biGa.txt/agents";
-//    String BBBIGA = "../../Documents/Experiments/sumo-BB-biGa.txt/agents";
-//    String BBBIME = "../../Documents/Experiments/sumo-BB-biMe.txt/agents";
+        String BOB = "../Experiments/sumo-BO-vs-box.txt/agents";
+        String BBB = "../Experiments/sumo-BB-vs-box.txt/agents";
+        String BOSP = "../Experiments/sumo-BO-self-play.txt/agents";
+        String BBSP = "../Experiments/sumo-BB-self-play.txt/agents";
+        String BOBIGA = "../Experiments/sumo-BO-biGa.txt/agents";
+        String BBBIGA = "../Experiments/sumo-BB-biGa.txt/agents";
+        String BBBIME = "../Experiments/sumo-BB-biMe.txt/agents";
 
-
-    String resultsFilePath = "../../Documents/Experiments/Results/results.csv";
-    String detailedResultsCsvFilePath = "../../Documents/Experiments/Results/detailedResults.csv";
+        String resultsFilePath = "../Experiments/Results/results.csv";
+        String detailedResultsCsvFilePath = "../Experiments/Results/detailedResults.csv";
 
         try {
             List<Supplier<CentralizedNumGridVSR>> robots1 = loadRobotsFromDirectory(BOB, boMapper);
-            List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
+//            List<Supplier<DistributedNumGridVSR>> robots2 = loadRobotsFromDirectory(BBB, bbMapper);
             List<Supplier<CentralizedNumGridVSR>> robots3 = loadRobotsFromDirectory(BOSP, boMapper);
             List<Supplier<DistributedNumGridVSR>> robots4 = loadRobotsFromDirectory(BBSP, bbMapper);
             List<Supplier<CentralizedNumGridVSR>> robots5 = loadRobotsFromDirectory(BOBIGA, boMapper);
-//      List<Supplier<DistributedNumGridVSR>> robots6 = loadRobotsFromDirectory(BBBIGA, bbMapper);
-//      List<Supplier<DistributedNumGridVSR>> robots7 = loadRobotsFromDirectory(BBBIME, bbMapper);
-
+            List<Supplier<DistributedNumGridVSR>> robots6 = loadRobotsFromDirectory(BBBIGA, bbMapper);
+            List<Supplier<DistributedNumGridVSR>> robots7 = loadRobotsFromDirectory(BBBIME, bbMapper);
 
             Supplier<Engine> engineSupplier =
                     () -> ServiceLoader.load(Engine.class).findFirst().orElseThrow();
@@ -115,17 +113,16 @@ public class SumoCrossMatcher {
                             "sim.drawer(framer = sim.staticFramer(minX = 5.0; maxX = 40.0; minY = 10.0; maxY = 25.0); actions = true)"))
                     .apply("test");
 
-            List<String> teamNames = List.of("BOB", "BBB", "BOSP", "BBSP", "BOBIGA");
+            List<String> teamNames = List.of("BOB", "BOSP", "BBSP", "BOBIGA", "BBBIGA", "BBBIME");
             List<List<Supplier<? extends EmbodiedAgent>>> allRobots = List.of(
                     (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots1,
-                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
+//                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots2,
                     (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots3,
                     (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots4,
-                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots5
-//              ,
-//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots6,
-//          (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots7
-              );
+                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots5,
+                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots6,
+                    (List<Supplier<? extends EmbodiedAgent>>) (List<?>) robots7
+            );
 
             String[][] resultsMatrix = new String[allRobots.size()][allRobots.size()];
             for (int i = 0; i < allRobots.size(); i++) {
@@ -157,9 +154,9 @@ public class SumoCrossMatcher {
 
                         System.out.printf("Start of the fight Team%d vs Team%d:%n", i + 1, j + 1);
 
-                        for (int k = 0; k < team1.size(); k++) {
+                        for (int k = 0; k < 3; k++) {
                             Supplier<? extends EmbodiedAgent> robotSupplier1 = team1.get(k);
-                            for (int p = 0; p < team2.size(); p++) {
+                            for (int p = 0; p < 3; p++) {
                                 Supplier<? extends EmbodiedAgent> robotSupplier2 = team2.get(p);
 
                                 System.out.printf("Agent%d vs Agent%d:%n", k, p);
@@ -167,8 +164,7 @@ public class SumoCrossMatcher {
                                 Runnable task = taskOn(
                                         nb,
                                         engineSupplier,
-                    snapshot -> {},
-//                                        new RealtimeViewer(30, drawer),
+                                        snapshot -> {},
                                         "s.t.sumoArena()",
                                         robotSupplier1,
                                         robotSupplier2,
@@ -189,13 +185,12 @@ public class SumoCrossMatcher {
                 }
             }
 
-      saveResultsAsCsv(resultsFilePath, teamNames, resultsMatrix);
-      saveDetailedResults(detailedResultsCsvFilePath, detailedResults);
-      System.exit(0);
-    } catch (IOException | ClassNotFoundException e) {
-      e.printStackTrace();
+            saveAllResults(resultsFilePath, detailedResultsCsvFilePath, teamNames, resultsMatrix, detailedResults);
+            System.exit(0);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
-  }
 
     public static List<Double> fromBase64(String content) throws IOException, ClassNotFoundException {
         try (ByteArrayInputStream bais =
@@ -207,10 +202,13 @@ public class SumoCrossMatcher {
         }
     }
 
-    public static void saveResultsAsCsv(String filePath, List<String> teamNames, String[][] resultsMatrix)
-            throws IOException {
-        try (FileWriter writer = new FileWriter(filePath)) {
+    public static void saveAllResults(String resultsFilePath, String detailedResultsFilePath, List<String> teamNames, String[][] resultsMatrix, List<String[]> detailedResults) throws IOException {
+        String teamWithMostHomeWins = getTeamWithMostHomeWins(detailedResults);
+        String teamWithMostAwayWins = getTeamWithMostAwayWins(detailedResults);
+        String teamWithBestAverageScore = getTeamWithBestAverageScore(detailedResults, teamNames);
+        Map<String, Double> averageBattleTime = getAverageBattleTime(detailedResults);
 
+        try (FileWriter writer = new FileWriter(resultsFilePath)) {
             writer.append("Home Team\\Away Team,");
 
             for (String teamName : teamNames) {
@@ -219,27 +217,88 @@ public class SumoCrossMatcher {
             writer.append("\n");
 
             for (int i = 0; i < teamNames.size(); i++) {
-
                 writer.append(teamNames.get(i)).append(",");
                 for (int j = 0; j < teamNames.size(); j++) {
-                    if (i != j) {
-                        writer.append(resultsMatrix[i][j]).append(",");
-                    } else {
-                        writer.append("N/A,");
-                    }
+                    writer.append(resultsMatrix[i][j]).append(",");
                 }
                 writer.append("\n");
+            }
+
+            writer.append("\nSummary Information\n");
+            writer.append("Team with most home wins: ").append(teamWithMostHomeWins).append("\n");
+            writer.append("Team with most away wins: ").append(teamWithMostAwayWins).append("\n");
+            writer.append("Team with best average score: ").append(teamWithBestAverageScore).append("\n");
+        }
+
+        try (FileWriter writer = new FileWriter(detailedResultsFilePath)) {
+            for (String[] result : detailedResults) {
+                writer.append(String.join(",", result)).append("\n");
+            }
+
+            writer.append("\nSummary Information\n");
+            writer.append("Team with most home wins: ").append(teamWithMostHomeWins).append("\n");
+            writer.append("Team with most away wins: ").append(teamWithMostAwayWins).append("\n");
+            writer.append("Team with best average score: ").append(teamWithBestAverageScore).append("\n");
+            for (Map.Entry<String, Double> entry : averageBattleTime.entrySet()) {
+                writer.append("Average battle time for ").append(entry.getKey()).append(": ").append(String.format("%.3f", entry.getValue())).append("\n");
             }
         }
     }
 
-  public static void saveDetailedResults(String filePath, List<String[]> detailedResults) throws IOException {
-    try (FileWriter writer = new FileWriter(filePath)) {
-      for (String[] result : detailedResults) {
-        writer.append(String.join(",", result)).append("\n");
-      }
+    public static Map<String, Double> getAverageBattleTime(List<String[]> detailedResults) {
+        Map<String, List<Double>> battleTimes = new HashMap<>();
+        for (int i = 1; i < detailedResults.size(); i++) {
+            String[] result = detailedResults.get(i);
+            if (result.length > 7 && "T".equals(result[4])) {
+                battleTimes.computeIfAbsent(result[0], k -> new ArrayList<>()).add(Double.parseDouble(result[7].replace(",", ".")));
+            }
+        }
+        Map<String, Double> averageBattleTimes = new HashMap<>();
+        for (Map.Entry<String, List<Double>> entry : battleTimes.entrySet()) {
+            averageBattleTimes.put(entry.getKey(), entry.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0));
+        }
+        return averageBattleTimes;
     }
-  }
+
+    public static String getTeamWithMostHomeWins(List<String[]> detailedResults) {
+        Map<String, Integer> homeWins = new HashMap<>();
+        for (int i = 1; i < detailedResults.size(); i++) {
+            String[] result = detailedResults.get(i);
+            if (result.length > 4 && "T".equals(result[4])) {
+                homeWins.put(result[0], homeWins.getOrDefault(result[0], 0) + 1);
+            }
+        }
+        return homeWins.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+    }
+
+    public static String getTeamWithMostAwayWins(List<String[]> detailedResults) {
+        Map<String, Integer> awayWins = new HashMap<>();
+        for (int i = 1; i < detailedResults.size(); i++) {
+            String[] result = detailedResults.get(i);
+            if (result.length > 4 && "F".equals(result[4])) {
+                awayWins.put(result[2], awayWins.getOrDefault(result[2], 0) + 1);
+            }
+        }
+        return awayWins.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse(null);
+    }
+
+    public static String getTeamWithBestAverageScore(List<String[]> detailedResults, List<String> teamNames) {
+        Map<String, List<Double>> scores = new HashMap<>();
+        for (int i = 1; i < detailedResults.size(); i++) {
+            String[] result = detailedResults.get(i);
+            if (result.length > 5) {
+                try {
+                    scores.computeIfAbsent(result[0], k -> new ArrayList<>()).add(Double.parseDouble(result[5].replace(",", ".")));
+                    scores.computeIfAbsent(result[2], k -> new ArrayList<>()).add(Double.parseDouble(result[6].replace(",", ".")));
+                } catch (NumberFormatException e) {
+                    System.err.println("Errore di formattazione del numero: " + e.getMessage());
+                }
+            }
+        }
+        return scores.entrySet().stream()
+                .max(Comparator.comparingDouble(e -> e.getValue().stream().mapToDouble(Double::doubleValue).average().orElse(0)))
+                .map(Map.Entry::getKey).orElse(null);
+    }
 
     public static List<Double> loadGenotypeFromFile(String filePath) throws IOException, ClassNotFoundException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -293,7 +352,6 @@ public class SumoCrossMatcher {
         return () -> {
             try {
                 Sumo sumo = new Sumo(30);
-//        Engine engine = engineSupplier.get();
                 SumoAgentsOutcome outcome = sumo.run(
                         (Supplier<EmbodiedAgent>) agentSupplier1,
                         (Supplier<EmbodiedAgent>) agentSupplier2,
@@ -323,28 +381,7 @@ public class SumoCrossMatcher {
                         String.format("%.3f", duration)
                 });
 
-                String currentResults = resultsMatrix[teamIndex1][teamIndex2];
-                currentResults = currentResults.replace(",", ".");
-
-                if (currentResults == null || currentResults.isEmpty() || currentResults.equals("0;0.0")) {
-                    currentResults = "V: 0; S = 0.0";
-                }
-
-                String[] parts = currentResults.split("; ");
-                if (parts.length != 2) {
-                    throw new IllegalArgumentException("Invalid format of the string: " + currentResults);
-                }
-
-                int homeVictories = Integer.parseInt(parts[0].split(": ")[1].trim());
-                double homeScoreTotal = Double.parseDouble(parts[1].split("= ")[1].trim());
-
-                if (isHome) {
-                    homeVictories++;
-                    homeScoreTotal += score1vs2;
-                }
-
-                double averageScore = homeScoreTotal / homeVictories;
-                resultsMatrix[teamIndex1][teamIndex2] = String.format("V: %d; S = %.1f", homeVictories, averageScore);
+                resultsMatrix[teamIndex1][teamIndex2] = homeWins ? "T" : "F";
             } catch (Exception e) {
                 e.printStackTrace();
             }
